@@ -1,9 +1,9 @@
 package com.gustavo.quemassa.domain;
 
 import java.io.Serializable;
-import java.util.HashSet;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -14,31 +14,30 @@ import javax.persistence.OneToMany;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
-public class Ingredient implements Serializable{
+public class Drink implements Serializable {
 	private static final long serialVersionUID = 1L;
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
+	
 	private String name;
+	private Integer millimeters;
+	
 	private Double price;
-	private Boolean vegan;
-	private Boolean lactose;
 	
-	@OneToMany(mappedBy = "id.ingredient")
-	@JsonIgnore
-	private Set<MealIngredient> mealIngredients = new HashSet<>();
-	
-	public Ingredient() {
+	@OneToMany(mappedBy = "drink")
+	private List<DrinkOrder> drinkOrders = new ArrayList<>();
+
+	public Drink() {
 	}
 
-	public Ingredient(Integer id, String name, double price, Boolean vegan, Boolean lactose) {
+	public Drink(Integer id, String name, Integer millimeters, Double price) {
 		super();
 		this.id = id;
 		this.name = name;
+		this.millimeters = millimeters;
 		this.price = price;
-		this.vegan = vegan;
-		this.lactose = lactose;
 	}
 
 	public Integer getId() {
@@ -50,12 +49,12 @@ public class Ingredient implements Serializable{
 	}
 
 	@JsonIgnore
-	public Set<MealIngredient> getMealIngredients() {
-		return mealIngredients;
+	public List<DrinkOrder> getDrinkOrders() {
+		return drinkOrders;
 	}
 
-	public void setMealIngredients(Set<MealIngredient> mealIngredients) {
-		this.mealIngredients = mealIngredients;
+	public void setDrinkOrders(List<DrinkOrder> drinkOrders) {
+		this.drinkOrders = drinkOrders;
 	}
 
 	public String getName() {
@@ -74,25 +73,17 @@ public class Ingredient implements Serializable{
 		this.price = price;
 	}
 
-	public Boolean getVegan() {
-		return vegan;
+	public Integer getMillimeters() {
+		return millimeters;
 	}
 
-	public void setVegan(Boolean vegan) {
-		this.vegan = vegan;
-	}
-
-	public Boolean getLactose() {
-		return lactose;
-	}
-
-	public void setLactose(Boolean lactose) {
-		this.lactose = lactose;
+	public void setMillimeters(Integer millimeters) {
+		this.millimeters = millimeters;
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(id);
+		return Objects.hash(name, millimeters);
 	}
 
 	@Override
@@ -103,7 +94,7 @@ public class Ingredient implements Serializable{
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Ingredient other = (Ingredient) obj;
-		return Objects.equals(id, other.id);
+		Drink other = (Drink) obj;
+		return Objects.equals(name, other.name) && Objects.equals(millimeters, other.millimeters);
 	}
 }

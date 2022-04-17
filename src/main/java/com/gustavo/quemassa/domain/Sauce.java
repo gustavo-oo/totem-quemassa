@@ -1,22 +1,17 @@
 package com.gustavo.quemassa.domain;
 
 import java.io.Serializable;
-import java.util.HashSet;
 import java.util.Objects;
-import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
-public class Ingredient implements Serializable{
+public class Sauce implements Serializable{
 	private static final long serialVersionUID = 1L;
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
@@ -24,15 +19,11 @@ public class Ingredient implements Serializable{
 	private Double price;
 	private Boolean vegan;
 	private Boolean lactose;
-	
-	@OneToMany(mappedBy = "id.ingredient")
-	@JsonIgnore
-	private Set<MealIngredient> mealIngredients = new HashSet<>();
-	
-	public Ingredient() {
+
+	public Sauce() {
 	}
 
-	public Ingredient(Integer id, String name, double price, Boolean vegan, Boolean lactose) {
+	public Sauce(Integer id, String name, double price, Boolean vegan, Boolean lactose) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -47,15 +38,6 @@ public class Ingredient implements Serializable{
 
 	public void setId(Integer id) {
 		this.id = id;
-	}
-
-	@JsonIgnore
-	public Set<MealIngredient> getMealIngredients() {
-		return mealIngredients;
-	}
-
-	public void setMealIngredients(Set<MealIngredient> mealIngredients) {
-		this.mealIngredients = mealIngredients;
 	}
 
 	public String getName() {
@@ -103,7 +85,7 @@ public class Ingredient implements Serializable{
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Ingredient other = (Ingredient) obj;
+		Sauce other = (Sauce) obj;
 		return Objects.equals(id, other.id);
 	}
 }
