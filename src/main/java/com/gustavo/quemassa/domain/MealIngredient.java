@@ -69,6 +69,7 @@ public class MealIngredient implements Serializable {
 
 	@Override
 	public String toString() {
-		return "MealIngredient [id=" + id + "]";
+		return "Ingredient: " + getIngredient().getId() + " Meal: " + getMeal().getId();
 	}
+	
 }

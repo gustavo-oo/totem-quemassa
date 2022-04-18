@@ -2,6 +2,7 @@ package com.gustavo.quemassa.domain;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
@@ -39,12 +40,19 @@ public class Order implements Serializable{
 	public Order() {
 	}
 	
-	public Order(Integer id, String clientName, Date startTime, Date endTime) {
+	public Order(Integer id, String clientName) {
 		super();
 		this.id = id;
 		this.clientName = clientName;
-		this.startTime = startTime;
-		this.endTime = endTime;
+		this.startTime = new Date(System.currentTimeMillis());
+		this.endTime = generateEndTime() ;
+	}
+	
+	private Date generateEndTime() {
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(startTime);
+		calendar.add(Calendar.MINUTE, 15);
+		return calendar.getTime();
 	}
 
 	public Integer getId() {

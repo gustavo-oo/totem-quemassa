@@ -126,4 +126,10 @@ public class Meal implements Serializable {
 		Meal other = (Meal) obj;
 		return Objects.equals(Id, other.Id);
 	}
+
+	@Override
+	public String toString() {
+		return "Meal [Id=" + Id + "]";
+	}
+	
 }

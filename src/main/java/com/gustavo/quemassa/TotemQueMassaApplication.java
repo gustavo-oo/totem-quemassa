@@ -93,23 +93,27 @@ public class TotemQueMassaApplication implements CommandLineRunner{
 		
 		Date startTime = dateFormat.parse("17/04/2022 15:30");
 		Date endTime = dateFormat.parse("17/04/2022 15:45");
-		Order order1 = new Order(null, "Gustavo", startTime, endTime);
+		Order order1 = new Order(null, "Gustavo");
+		
+		order1.setStartTime(startTime);
+		order1.setEndTime(endTime);
 		
 		Meal meal1 = new Meal(null, pasta1, sauce1, topping1, order1);
 		Meal meal2 = new Meal(null, pasta3, sauce3, null, order1);
 		
 		order1.setMeals(Arrays.asList(meal1, meal2));
 		
-		DrinkOrder drinkorder1 = new DrinkOrder(null, order1, drink1, 2);
-		DrinkOrder drinkorder2 = new DrinkOrder(null, order1, drink1, 3);
+		DrinkOrder drinkOrder1 = new DrinkOrder(null, order1, drink1, 2);
+		DrinkOrder drinkOrder2 = new DrinkOrder(null, order1, drink1, 3);
 		
-		order1.setDrinkOrders(Arrays.asList(drinkorder1, drinkorder2));
-		drink1.setDrinkOrders(Arrays.asList(drinkorder1));
-		drink2.setDrinkOrders(Arrays.asList(drinkorder1));
+		order1.getDrinkOrders().addAll(Arrays.asList(drinkOrder1, drinkOrder2));
+		
+		drink1.getDrinkOrders().addAll(Arrays.asList(drinkOrder1));
+		drink2.getDrinkOrders().addAll(Arrays.asList(drinkOrder1));
 		
 		drinkRepository.saveAll(Arrays.asList(drink1, drink2));
 		orderRepository.saveAll(Arrays.asList(order1));
-		drinkOrderRepository.saveAll(Arrays.asList(drinkorder1, drinkorder2));
+		drinkOrderRepository.saveAll(Arrays.asList(drinkOrder1, drinkOrder2));
 		
 		mealRepository.saveAll(Arrays.asList(meal1, meal2));
 		

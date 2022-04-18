@@ -1,15 +1,21 @@
 package com.gustavo.quemassa.resources;
 
+import java.net.URI;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.gustavo.quemassa.domain.Order;
+import com.gustavo.quemassa.dto.ActiveOrderDTO;
+import com.gustavo.quemassa.dto.NewOrderDTO;
 import com.gustavo.quemassa.services.OrderService;
 
 @RestController
@@ -33,5 +39,40 @@ public class OrderResource {
 		
 		return ResponseEntity.ok().body(orders);
 		
-	}	
+	}
+	
+	@GetMapping(value = "/active")
+	public ResponseEntity<List<ActiveOrderDTO>> findActiveOrders(){
+		List<Order> orders = service.findActiveOrders();
+		
+		List<ActiveOrderDTO> orderDTO = service.toDTO(orders);
+		
+		return ResponseEntity.ok().body(orderDTO);
+	}
+	
+	@GetMapping(value = "/history")
+	public ResponseEntity<List<ActiveOrderDTO>> findHistoryOrders(){
+		List<Order> orders = service.findAll();
+		
+		List<ActiveOrderDTO> orderDTO = service.toDTO(orders);
+		
+		return ResponseEntity.ok().body(orderDTO);
+	}
+	
+	
+	
+	@PostMapping
+	public ResponseEntity<Void> create(@RequestBody NewOrderDTO newOrderDTO){
+		
+		Order newOrder = service.fromDTO(newOrderDTO);
+		newOrder = service.create(newOrder);
+		
+		URI uri = ServletUriComponentsBuilder
+					.fromCurrentRequest()
+					.path("/{id}")
+					.buildAndExpand(newOrder.getId())
+					.toUri();
+		
+		return ResponseEntity.created(uri).build();
+	}
 }

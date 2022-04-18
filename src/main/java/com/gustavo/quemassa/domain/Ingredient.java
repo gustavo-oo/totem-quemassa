@@ -106,4 +106,10 @@ public class Ingredient implements Serializable{
 		Ingredient other = (Ingredient) obj;
 		return Objects.equals(id, other.id);
 	}
+
+	@Override
+	public String toString() {
+		return "Ingredient [id=" + id + ", name=" + name + ", price=" + price + ", vegan=" + vegan + ", lactose="
+				+ lactose + ", mealIngredients=" + mealIngredients + "]";
+	}
 }
