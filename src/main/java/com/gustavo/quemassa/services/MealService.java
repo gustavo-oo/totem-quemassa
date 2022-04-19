@@ -1,5 +1,6 @@
 package com.gustavo.quemassa.services;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -15,13 +16,29 @@ import com.gustavo.quemassa.domain.Pasta;
 import com.gustavo.quemassa.domain.Sauce;
 import com.gustavo.quemassa.domain.Topping;
 import com.gustavo.quemassa.dto.NewMealDTO;
+import com.gustavo.quemassa.repositories.IngredientRepository;
 import com.gustavo.quemassa.repositories.MealRepository;
+import com.gustavo.quemassa.repositories.PastaRepository;
+import com.gustavo.quemassa.repositories.SauceRepository;
+import com.gustavo.quemassa.repositories.ToppingRepository;
 
 @Service
 public class MealService {
 
 	@Autowired
 	MealRepository mealRepository;
+
+	@Autowired
+	PastaRepository pastaRepository;
+
+	@Autowired
+	IngredientRepository ingredientRepository;
+
+	@Autowired
+	SauceRepository sauceRepository;
+
+	@Autowired
+	ToppingRepository toppingRepository;
 
 	public Meal find(Integer id) {
 		Optional<Meal> meal = mealRepository.findById(id);
@@ -30,23 +47,24 @@ public class MealService {
 	}
 
 	public Meal fromDTO(NewMealDTO mealDTO, Order order) {
-		Pasta pasta = new Pasta(mealDTO.getPastaId(), null, null);
-		
-		Set<Ingredient> ingredients = mealDTO.getIngredientsId().stream()
-				.map(ingredientId -> new Ingredient(ingredientId, null, 0, null, null)).collect(Collectors.toSet());
-				
-		
-		Sauce sauce = new Sauce(mealDTO.getSauceId(), null, 0, null, null);
-		Topping topping = new Topping(mealDTO.getToppingId(), null, 0, null, null);
-		
-		Meal meal = new Meal(null, pasta, sauce, topping, order);
-		
+
+		Optional<Pasta> pasta = mealDTO.getPastaId() != null ? pastaRepository.findById(mealDTO.getPastaId()) : Optional.empty();
+
+		List<Ingredient> ingredients = mealDTO.getIngredientsId() != null
+				? ingredientRepository.findAllById(mealDTO.getIngredientsId())
+				: null;
+
+		Optional<Sauce> sauce = mealDTO.getSauceId() != null ? sauceRepository.findById(mealDTO.getSauceId()) : Optional.empty();
+
+		Optional<Topping> topping = mealDTO.getToppingId() != null ? toppingRepository.findById(mealDTO.getToppingId()) : Optional.empty();
+
+		Meal meal = new Meal(null, pasta.orElse(null), sauce.orElse(null), topping.orElse(null), order);
+
 		Set<MealIngredient> mealIngredients = ingredients.stream()
 				.map(ingredient -> new MealIngredient(meal, ingredient)).collect(Collectors.toSet());
-		
-		
+
 		meal.setMealIngredients(mealIngredients);
-		
+
 		return meal;
 	}
 

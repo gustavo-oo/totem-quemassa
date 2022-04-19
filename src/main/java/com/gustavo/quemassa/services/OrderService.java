@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.gustavo.quemassa.domain.DrinkOrder;
 import com.gustavo.quemassa.domain.Meal;
@@ -50,6 +51,7 @@ public class OrderService {
 		return orders;
 	}
 
+	@Transactional
 	public Order create(Order newOrder) {
 		Order savedOrder = orderRepository.save(newOrder);
 						
@@ -79,7 +81,10 @@ public class OrderService {
 	}
 	
 	public ActiveOrderDTO toDTO(Order order) {
-		return new ActiveOrderDTO(order.getId(), order.getClientName(), order.getEndTime());
+		ActiveOrderDTO activeOrder = new ActiveOrderDTO(order.getId(), order.getClientName(), order.getEndTime());
+		activeOrder.setTotalPrice(order.getTotalPrice());
+		
+		return activeOrder;
 	}
 	
 	public List<ActiveOrderDTO> toDTO(List<Order> orders){

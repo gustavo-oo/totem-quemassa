@@ -10,6 +10,7 @@ public class ActiveOrderDTO implements Serializable{
 	private Integer id;
 	private String clienteName;
 	private Date endTime;
+	private Double totalPrice;
 	
 	public ActiveOrderDTO() {
 	}
@@ -43,6 +44,14 @@ public class ActiveOrderDTO implements Serializable{
 
 	public void setEndTime(Date endTime) {
 		this.endTime = endTime;
+	}
+	
+	public Double getTotalPrice() {
+		return totalPrice;
+	}
+
+	public void setTotalPrice(Double totalPrice) {
+		this.totalPrice = totalPrice;
 	}
 
 	@Override

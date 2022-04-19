@@ -14,11 +14,9 @@ public class NewOrderDTO implements Serializable{
 	public NewOrderDTO() {
 	}
 
-	public NewOrderDTO(String clienteName, List<NewDrinkOrderDTO> drinkOrders, List<NewMealDTO> meals) {
+	public NewOrderDTO(String clienteName) {
 		super();
 		this.clienteName = clienteName;
-		this.drinkOrders = drinkOrders;
-		this.meals = meals;
 	}
 
 	public String getClientName() {

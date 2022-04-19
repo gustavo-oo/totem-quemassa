@@ -14,6 +14,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
@@ -34,7 +35,10 @@ public class Order implements Serializable{
 	@OneToMany(mappedBy = "order")
 	private List<DrinkOrder> drinkOrder = new ArrayList<>();
 	
+	@JsonFormat(pattern = "dd/MM/yyyy HH:mm")
 	private Date startTime;
+	
+	@JsonFormat(pattern = "dd/MM/yyyy HH:mm")
 	private Date endTime;
 	
 	public Order() {
@@ -102,6 +106,28 @@ public class Order implements Serializable{
 
 	public void setEndTime(Date endTime) {
 		this.endTime = endTime;
+	}
+	
+	public Double getTotalPrice() {		
+		
+		Double totalPrice = 0.0;
+		
+		for(Meal meal: meals) {
+			totalPrice += meal.getPasta() != null ? meal.getPasta().getPrice() : 0;
+			totalPrice += meal.getSauce() != null ? meal.getSauce().getPrice() : 0;
+			totalPrice += meal.getTopping() != null ? meal.getTopping().getPrice(): 0;
+			
+			for(Ingredient ingredient: meal.getIngredients()) {
+				totalPrice += ingredient.getPrice();
+			}
+		}
+		
+		for(DrinkOrder drink: drinkOrder) {
+			totalPrice += drink.getDrink().getPrice()*drink.getQuantity();
+			
+		}
+		
+		return totalPrice;
 	}
 
 	@Override

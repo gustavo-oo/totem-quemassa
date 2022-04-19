@@ -76,7 +76,7 @@ public class DrinkOrder implements Serializable{
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(drink, order);
+		return Objects.hash(id);
 	}
 
 	@Override
@@ -88,6 +88,6 @@ public class DrinkOrder implements Serializable{
 		if (getClass() != obj.getClass())
 			return false;
 		DrinkOrder other = (DrinkOrder) obj;
-		return Objects.equals(drink, other.drink) && Objects.equals(order, other.order);
+		return Objects.equals(id, other.id);
 	}
 }

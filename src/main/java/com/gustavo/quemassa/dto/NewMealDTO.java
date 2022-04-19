@@ -14,10 +14,9 @@ public class NewMealDTO implements Serializable{
 	public NewMealDTO() {
 	}
 
-	public NewMealDTO(Integer pastaId, Set<Integer> ingredientsId, Integer sauceId, Integer toppingId) {
+	public NewMealDTO(Integer pastaId, Integer sauceId, Integer toppingId) {
 		super();
 		this.pastaId = pastaId;
-		this.ingredientsId = ingredientsId;
 		this.sauceId = sauceId;
 		this.toppingId = toppingId;
 	}
