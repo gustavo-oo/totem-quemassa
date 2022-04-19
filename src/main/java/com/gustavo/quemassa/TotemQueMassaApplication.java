@@ -69,8 +69,9 @@ public class TotemQueMassaApplication implements CommandLineRunner{
 		Ingredient ingredient1 = new Ingredient(null, "Bacon", 3.00, false, false);
 		Ingredient ingredient2 = new Ingredient(null, "Brócolis", 1.50, true, false);
 		Ingredient ingredient3 = new Ingredient(null, "Mussarela", 2.00, false, true);
+		Ingredient ingredient4 = new Ingredient(null, "Frango Picado", 5.00, false, false);
 		
-		ingredientRepository.saveAll(Arrays.asList(ingredient1, ingredient2, ingredient3));
+		ingredientRepository.saveAll(Arrays.asList(ingredient1, ingredient2, ingredient3, ingredient4));
 		
 		Pasta pasta1 = new Pasta(null, "Penne", 25.00);
 		Pasta pasta2 = new Pasta(null, "Parafuso", 10.00);
@@ -81,15 +82,20 @@ public class TotemQueMassaApplication implements CommandLineRunner{
 		Sauce sauce1 = new Sauce(null, "Molho Branco", 8, false, true);
 		Sauce sauce2 = new Sauce(null, "Molho Vermelho", 5, true, false);
 		Sauce sauce3 = new Sauce(null, "Molho Misto", 7.50, false, true);
+		Sauce sauce4 = new Sauce(null, "Molho de Queijo", 4.55, false, true);
 		
-		sauceRepository.saveAll(Arrays.asList(sauce1, sauce2, sauce3));
+		sauceRepository.saveAll(Arrays.asList(sauce1, sauce2, sauce3, sauce4));
 		
 		Topping topping1 = new Topping(null, "Parmesão", 2.50, false, true);
+		Topping topping2 = new Topping(null, "Manjericão", 2.50, false, false);
+		Topping topping3 = new Topping(null, "Orégano", 1.50, false, false);
 		
-		toppingRepository.saveAll(Arrays.asList(topping1));
+		toppingRepository.saveAll(Arrays.asList(topping1, topping2, topping3));
 		
 		Drink drink1 = new Drink(null, "Coca-cola", 350, 4.00);
 		Drink drink2 = new Drink(null, "Água", 250, 2.00);
+		Drink drink3 = new Drink(null, "Guaraná", 300, 3.00);
+		Drink drink4 = new Drink(null, "Suco", 500, 2.50);
 		
 		Date startTime = dateFormat.parse("17/04/2022 15:30");
 		Date endTime = dateFormat.parse("17/04/2022 15:45");
@@ -111,7 +117,7 @@ public class TotemQueMassaApplication implements CommandLineRunner{
 		drink1.getDrinkOrders().addAll(Arrays.asList(drinkOrder1));
 		drink2.getDrinkOrders().addAll(Arrays.asList(drinkOrder1));
 		
-		drinkRepository.saveAll(Arrays.asList(drink1, drink2));
+		drinkRepository.saveAll(Arrays.asList(drink1, drink2, drink3, drink4));
 		orderRepository.saveAll(Arrays.asList(order1));
 		drinkOrderRepository.saveAll(Arrays.asList(drinkOrder1, drinkOrder2));
 		
